@@ -3,7 +3,7 @@
         <div v-for="chirp in chirps" class="col-md-8 offset-md-2 mt-4">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h5 class="card-title">{{chirp.title}}</h5>
+                    <h5 class="card-title">{{chirp.title | to-uppercase}}</h5>
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{chirp.text}}</p>
