@@ -4,13 +4,10 @@
         <!-- Links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Link 1</a>
+                <router-link to="/" class="nav-link">Timeline</router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link 2</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 3</a>
+                <router-link to="/login" class="nav-link">Login</router-link>
             </li>
         </ul>
 
@@ -23,8 +20,5 @@
 </script>
 
 <style scoped>
-    /*.navbar {
-        margin-bottom: 0;
-        border-radius: 0;
-    }*/
+
 </style>
