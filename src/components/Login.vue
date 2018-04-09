@@ -32,6 +32,7 @@
         },
         methods: {
             login: function () {
+                let local = this;
                 let server_url = 'http://chirping.lndo.site/user/login?_format=json';
                 let cred = {};
                 cred.name = this.username;
@@ -59,8 +60,8 @@
                         },
                         'login': true
                     };
-                    this.$store.commit('setValue', values);
-                    this.$store.commit('setLocalStorageValue');
+                    local.$store.commit('setValue', values);
+                    local.$store.commit('setLocalStorageValue');
                 }).catch(error => {
                     alert("Error");
                 })

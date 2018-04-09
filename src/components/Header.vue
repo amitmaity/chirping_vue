@@ -9,8 +9,10 @@
             <li class="nav-item" v-if="!loggedIn">
                 <router-link to="/login" class="nav-link">Login</router-link>
             </li>
+            <li class="nav-item" v-if="loggedIn">
+                <router-link to="/logout" class="nav-link">Logout</router-link>
+            </li>
         </ul>
-
     </nav>
 
 </template>
@@ -19,10 +21,10 @@
     export default {
         data(){
             return {
-                loggedIn: false,
+                loggedIn: this.$store.getters.isLoggedIn,
             }
         },
-        mounted() {
+        beforeUpdate()  {
             this.loggedIn = this.$store.getters.isLoggedIn;
         }
     }
