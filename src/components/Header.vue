@@ -6,7 +6,7 @@
             <li class="nav-item">
                 <router-link to="/" class="nav-link">Timeline</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="!loggedIn">
                 <router-link to="/login" class="nav-link">Login</router-link>
             </li>
         </ul>
@@ -16,7 +16,16 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        data(){
+            return {
+                loggedIn: false,
+            }
+        },
+        mounted() {
+            this.loggedIn = this.$store.getters.isLoggedIn;
+        }
+    }
 </script>
 
 <style scoped>

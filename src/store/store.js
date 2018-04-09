@@ -23,5 +23,13 @@ export const store = new Vuex.Store({
                 );
             }
         },
+        removeLocalStorageValue:    function (state) {
+            localStorage.removeItem("store");
+        }
+    },
+    getters:    {
+        isLoggedIn: function (state) {
+            return state.login;
+        }
     }
 })

@@ -17,13 +17,18 @@
 
 <script>
     import axios from 'axios';
-    //import router from 'router'
+    import router from '../router'
     export default {
         data() {
             return {
                 username: '',
                 password: '',
+                loggedIn: false,
             }
+        },
+        mounted()  {
+            this.loggedIn = this.$store.getters.isLoggedIn;
+            this.checkLogin();
         },
         methods: {
             login: function () {
@@ -43,8 +48,7 @@
                     },
                     cookies: true,
                 }).then(result => {
-                    alert("Success");
-                    console.log(result.data);
+                    console.log('Logged in');
                     let values = {
                         'user': {
                             uid: result.data.current_user.uid,
@@ -55,14 +59,17 @@
                         },
                         'login': true
                     };
-                    //console.log(values)
                     this.$store.commit('setValue', values);
                     this.$store.commit('setLocalStorageValue');
-                    //router.push('/');
                 }).catch(error => {
                     alert("Error");
-                    console.log(error);
                 })
+                router.push('/');
+            },
+            checkLogin: function () {
+                if (this.loggedIn){
+                    router.push('/');
+                }
             }
         },
     }
