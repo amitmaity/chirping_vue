@@ -15,7 +15,7 @@
         background-color: #555;
         color: white;
         padding: 15px;
-        position: absolute;
-        bottom: 0;
+        /*position: absolute;
+        bottom: 0;*/
     }
 </style>

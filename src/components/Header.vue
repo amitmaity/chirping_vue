@@ -6,10 +6,10 @@
             <li class="nav-item">
                 <router-link to="/" class="nav-link">Timeline</router-link>
             </li>
-            <li class="nav-item" v-if="!loggedIn">
+            <li class="nav-item" v-if="!loginState">
                 <router-link to="/login" class="nav-link">Login</router-link>
             </li>
-            <li class="nav-item" v-if="loggedIn">
+            <li class="nav-item" v-if="loginState">
                 <router-link to="/logout" class="nav-link">Logout</router-link>
             </li>
         </ul>
@@ -19,13 +19,10 @@
 
 <script>
     export default {
-        data(){
-            return {
-                loggedIn: this.$store.getters.isLoggedIn,
+        methods:    {
+            loginState: function () {
+                return this.$store.getters.isLoggedIn;
             }
-        },
-        beforeUpdate()  {
-            this.loggedIn = this.$store.getters.isLoggedIn;
         }
     }
 </script>

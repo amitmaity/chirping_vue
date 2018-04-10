@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <app-chirp></app-chirp>
         <div v-for="chirp in chirps" class="col-md-8 offset-md-2 mt-4">
             <div class="card">
                 <div class="card-header bg-info">
@@ -18,7 +19,11 @@
 
 <script>
     import axios from 'axios';
+    import Chirp from './Chirp';
     export default {
+        components:{
+            'app-chirp':  Chirp,
+        },
         data(){
             return{
                 chirps: [],
