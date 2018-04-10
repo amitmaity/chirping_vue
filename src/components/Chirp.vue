@@ -1,5 +1,6 @@
 <template>
     <div class="col-md-8 offset-md-2 mt-4">
+        <div v-if="flashMessage"><p class="text-center">Succesfully posted your chirp</p></div>
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
@@ -25,6 +26,7 @@
             return {
                 chirpTitle: '',
                 chirpText: '',
+                flashMessage: false,
             }
         },
         methods: {
@@ -32,6 +34,7 @@
                 return this.$store.state.user.csrf_token
             },
             postChirp:  function () {
+                let local = this;
                 let node = {
                     "type": [{"target_id": "chirp"}],
                     "title": [{"value": this.chirpTitle}],
@@ -48,20 +51,26 @@
                         "X-CSRF-Token": this.csrf()
                     },
                 }).then(result=>{
+                    local.chirpTitle = '';
+                    local.chirpText = '';
+                    local.flashMessage = true;
+                    local.disableFlash();
                     console.log(result)
                 }).catch(error => {
                     alert("error")
                     console.log(error);
                 })
+            },
+            disableFlash:   function () {
+                let local = this;
+                setTimeout(function () {
+                    local.flashMessage = false;
+                },60000)
             }
         }
     }
 </script>
 
 <style scoped>
-    /*textarea{
-        height: auto;
-        overflow: auto;
-        width: 100%;
-    }*/
+
 </style>

@@ -6,12 +6,20 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         login: false,
-        user: {}
+        user: {},
+        chirps: []
     },
     mutations: {
         setValue:   function (state,value) {
-            state.login = value.login;
-            state.user = value.user;
+            if (value.hasOwnProperty('login')){
+                state.login = value.login;
+            }
+            if (value.hasOwnProperty('user')){
+                state.user = value.user;
+            }
+            if (value.hasOwnProperty('chirps')){
+                state.chirps = value.chirps;
+            }
         },
         setLocalStorageValue: function (state) {
             localStorage.setItem('store', JSON.stringify(state));

@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Chirping</a>
+        <a class="navbar-brand" href="#">CHIRPING</a>
         <!-- Links -->
         <ul class="navbar-nav">
             <li class="nav-item">

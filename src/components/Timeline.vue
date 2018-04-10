@@ -30,10 +30,12 @@
             }
         },
         mounted() {
-            this.getChirps()
+            this.copyChirpFromStore();
+            this.fetchChirps();
+            this.refreshChirps();
         },
         methods: {
-            getChirps:  function () {
+            fetchChirps:  function () {
                 let backend_url = 'http://chirping.lndo.site/get-chirps?_format=json';
                 let local = this;
                 axios({
@@ -47,17 +49,31 @@
                     }
                 }).then(function (response) {
                     if (response.status === 200) {
-                        //console.log(response.data);
+                        local.chirps = [];
                         for(let i=0; i ,i < response.data.length; i++) {
-                            //console.log(response.data[i]);
                             local.chirps.push(response.data[i])
                         }
-                        //console.log(local.chirps);
+                        let values = {
+                            'chirps':   local.chirps,
+                        };
+                        local.$store.commit('setValue', values);
+                        local.$store.commit('setLocalStorageValue', values);
                     }
                 }).catch(function (error) {
                     console.log(error)
                 })
+            },
+            copyChirpFromStore: function () {
+                this.chirps = this.$store.state.chirps;
+            },
+            refreshChirps:  function () {
+                let local = this;
+                setInterval(function () {
+                    local.fetchChirps();
+                    console.log(local.chirps);
+                },10000)
             }
+
         }
     }
 </script>
