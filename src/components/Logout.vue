@@ -33,10 +33,10 @@
                     };
                     local.$store.commit('setValue', values);
                     local.$store.commit('setLocalStorageValue');
+                    router.push('/login');
                 }).catch(function (error) {
                     console.log(error)
                 })
-                router.push('/');
             }
         }
     }

@@ -20,6 +20,7 @@
 <script>
     import axios from 'axios';
     import Chirp from './Chirp';
+    import router from '../router';
     export default {
         components:{
             'app-chirp':  Chirp,
@@ -30,6 +31,7 @@
             }
         },
         mounted() {
+            this.redirectIfNotLoggedIn();
             this.copyChirpFromStore();
             this.fetchChirps();
             this.refreshChirps();
@@ -76,9 +78,17 @@
             refreshChirps:  function () {
                 let local = this;
                 setInterval(function () {
-                    local.fetchChirps();
+                    if (local.$store.getters.isLoggedIn){
+                        local.fetchChirps();
+                    }
                 },60000)
             },
+            redirectIfNotLoggedIn:  function () {
+                if (!this.$store.getters.isLoggedIn){
+                    console.log('Redirect to login');
+                    router.push('/login');
+                }
+            }
 
         }
     }

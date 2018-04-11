@@ -9,14 +9,12 @@
 </template>
 
 <script>
-    import Timeline from './components/Timeline';
     import Header from './components/Header';
     import Footer from './components/Footer';
 
     export default {
         components: {
             'app-header': Header,
-            'app-timeline': Timeline,
             'app-footer': Footer
         },
         data() {

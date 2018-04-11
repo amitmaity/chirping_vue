@@ -62,10 +62,10 @@
                     };
                     local.$store.commit('setValue', values);
                     local.$store.commit('setLocalStorageValue');
+                    router.push('/');
                 }).catch(error => {
                     alert("Error");
                 })
-                router.push('/');
             },
             checkLogin: function () {
                 if (this.loggedIn){
