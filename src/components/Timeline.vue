@@ -35,17 +35,22 @@
             this.refreshChirps();
         },
         methods: {
+            csrf: function () {
+                return this.$store.state.user.csrf_token
+            },
             fetchChirps:  function () {
                 let backend_url = 'http://chirping.lndo.site/get-chirps?_format=json';
                 let local = this;
                 axios({
                     method: 'get',
+                    withCredentials: true,
                     responseType: 'json',
                     url: backend_url,
                     data: {},
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/hal+json'
+                        'Content-Type': 'application/hal+json',
+                        'X-CSRF-Token': this.csrf()
                     }
                 }).then(function (response) {
                     if (response.status === 200) {
@@ -64,15 +69,16 @@
                 })
             },
             copyChirpFromStore: function () {
-                this.chirps = this.$store.state.chirps;
+                for(let i=0; i ,i < this.$store.state.chirps.length; i++) {
+                    this.chirps.push(this.$store.state.chirps[i])
+                }
             },
             refreshChirps:  function () {
                 let local = this;
                 setInterval(function () {
                     local.fetchChirps();
-                    console.log(local.chirps);
-                },10000)
-            }
+                },60000)
+            },
 
         }
     }

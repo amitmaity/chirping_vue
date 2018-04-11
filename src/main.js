@@ -13,7 +13,7 @@ new Vue({
     render: h => h(App),
     router,
     store: store,
-    mounted() {
+    beforeMount() {
         this.$store.commit('getLocalStorageValue')
     }
 });
