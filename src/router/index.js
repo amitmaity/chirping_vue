@@ -9,9 +9,7 @@ Vue.use(Router);
 export default new Router({
     routes: [
         {path: '/', component: Timeline, beforeEnter(to,from,next){
-            console.log(store.getters.isLoggedIn);
             if (!store.getters.isLoggedIn){
-                console.log('Redirect to login');
                 next('/login')
             }
             else {

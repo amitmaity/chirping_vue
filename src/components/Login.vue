@@ -62,15 +62,46 @@
                     };
                     local.$store.commit('setValue', values);
                     local.$store.commit('setLocalStorageValue');
+                    local.getUser();
                     router.push('/');
                 }).catch(error => {
-                    alert("Error");
+                    //alert("Error");
                 })
             },
             checkLogin: function () {
                 if (this.loggedIn){
                     router.push('/');
                 }
+            },
+            getUser: function () {
+                let local = this;
+                let server_url = 'http://chirping.lndo.site/user/'+ this.$store.state.user.uid +'?_format=json';
+                console.log(server_url);
+                axios({
+                    method: 'get',
+                    withCredentials: true,
+                    url: server_url,
+                    returnType: 'json',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": local.$store.state.user.csrf_token,
+                    },
+                    cookies: true,
+                }).then(result => {
+                    console.log('Fetched User');
+                    let user = local.$store.state.user;
+                    let name = result.data.field_name[0];
+                    user.name = name.value;
+                    let values = {
+                        'user': user,
+                    };
+                    local.$store.commit('setValue', values);
+                    local.$store.commit('setLocalStorageValue');
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error");
+                })
             }
         },
     }
