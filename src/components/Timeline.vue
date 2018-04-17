@@ -21,6 +21,8 @@
     import axios from 'axios';
     import Chirp from './Chirp';
     import router from '../router';
+    import { eventBus } from "../main";
+
     export default {
         components:{
             'app-chirp':  Chirp,
@@ -88,9 +90,19 @@
                     console.log('Redirect to login');
                     router.push('/login');
                 }
-            }
-
-        }
+            },
+        },
+        created() {
+            let local = this;
+            eventBus.$on('chirpAdded',function (data) {
+                console.log('bus caught');
+                local.chirps = [];
+                local.copyChirpFromStore();
+                /*local.$nextTick(function () {
+                    console.log(local.chirps);
+                })*/
+            })
+        },
     }
 </script>
 

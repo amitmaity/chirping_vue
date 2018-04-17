@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import {store} from './store/store'
 
+export const eventBus = new Vue();
 
 //Filters
 Vue.filter('to-uppercase', function (value) {

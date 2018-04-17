@@ -21,6 +21,8 @@
 
 <script>
     import axios from 'axios';
+    import { eventBus } from "../main";
+
     export default {
         data()  {
             return {
@@ -40,7 +42,6 @@
                     "title": [{"value": this.chirpTitle}],
                     "field_chirp_text": [{"value": this.chirpText}],
                 };
-                console.log(node);
                 axios({
                     method: 'post',
                     withCredentials: true,
@@ -51,13 +52,13 @@
                         "X-CSRF-Token": this.csrf()
                     },
                 }).then(result=>{
+                    local.instantAddChirp();
                     local.chirpTitle = '';
                     local.chirpText = '';
                     local.flashMessage = true;
                     local.disableFlash();
-                    console.log(result)
                 }).catch(error => {
-                    alert("error")
+                    alert("error");
                     console.log(error);
                 })
             },
@@ -65,7 +66,25 @@
                 let local = this;
                 setTimeout(function () {
                     local.flashMessage = false;
-                },60000)
+                },5000)
+            },
+            instantAddChirp:    function () {
+                let newChirpList = [];
+                let chirp = {
+                    'text': this.chirpText,
+                    'title': this.chirpText,
+                    'name': this.$store.state.user.name,
+                };
+                newChirpList.push(chirp);
+                for(let i=0; i ,i < this.$store.state.chirps.length; i++) {
+                    newChirpList.push(this.$store.state.chirps[i])
+                }
+                let values = {
+                    chirps: newChirpList,
+                };
+                this.$store.commit('setValue', values);
+                this.$store.commit('setLocalStorageValue');
+                eventBus.$emit('chirpAdded',chirp);
             }
         }
     }
