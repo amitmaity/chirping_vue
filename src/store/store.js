@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
     state: {
         login: false,
         user: {},
-        chirps: []
+        chirps: [],
+        lastChirpId: 0,
     },
     mutations: {
         setValue:   function (state,value) {
@@ -19,6 +20,9 @@ export const store = new Vuex.Store({
             }
             if (value.hasOwnProperty('chirps')){
                 state.chirps = value.chirps;
+            }
+            if (value.hasOwnProperty('lastChirpId')){
+                state.lastChirpId = value.lastChirpId;
             }
         },
         setLocalStorageValue: function (state) {
