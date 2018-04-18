@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <app-chirp></app-chirp>
         <div v-for="chirp in chirps" class="col-md-8 offset-md-2 mt-4">
             <div class="card">
@@ -22,7 +22,6 @@
     import Chirp from './Chirp';
     import router from '../router';
     import { eventBus } from "../main";
-
     export default {
         components:{
             'app-chirp':  Chirp,
@@ -30,20 +29,22 @@
         data(){
             return{
                 chirps: [],
+                busy: false,
+                page: 0,
             }
         },
         mounted() {
             this.redirectIfNotLoggedIn();
             this.copyChirpFromStore();
-            this.fetchChirps();
+            this.fetchChirps(0,true);
             this.refreshChirps();
         },
         methods: {
             csrf: function () {
                 return this.$store.state.user.csrf_token
             },
-            fetchChirps:  function () {
-                let backend_url = 'http://chirping.lndo.site/get-chirps?_format=json';
+            fetchChirps:  function (page,commit) {
+                let backend_url = 'http://chirping.lndo.site/get-chirps?_format=json&page='+page;
                 let local = this;
                 axios({
                     method: 'get',
@@ -58,15 +59,19 @@
                     }
                 }).then(function (response) {
                     if (response.status === 200) {
-                        local.chirps = [];
+                        if (commit){
+                            local.chirps = [];
+                        }
                         for(let i=0; i ,i < response.data.length; i++) {
                             local.chirps.push(response.data[i])
                         }
-                        let values = {
-                            'chirps':   local.chirps,
-                        };
-                        local.$store.commit('setValue', values);
-                        local.$store.commit('setLocalStorageValue', values);
+                        if (commit){
+                            let values = {
+                                'chirps':   local.chirps,
+                            };
+                            local.$store.commit('setValue', values);
+                            local.$store.commit('setLocalStorageValue', values);
+                        }
                     }
                 }).catch(function (error) {
                     console.log(error)
@@ -81,7 +86,7 @@
                 let local = this;
                 setInterval(function () {
                     if (local.$store.getters.isLoggedIn){
-                        local.fetchChirps();
+                        local.fetchChirps(0,true);
                     }
                 },60000)
             },
@@ -91,6 +96,13 @@
                     router.push('/login');
                 }
             },
+            loadMore:   function () {
+                this.page++;
+                this.busy = true;
+                console.log('fetching page' + this.page);
+                this.fetchChirps(this.page,false)
+                this.busy = false;
+            }
         },
         created() {
             let local = this;
